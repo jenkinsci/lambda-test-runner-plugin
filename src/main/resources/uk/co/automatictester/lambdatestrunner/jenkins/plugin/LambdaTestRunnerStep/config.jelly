@@ -1,0 +1,27 @@
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+
+    <f:entry field="functionName" title="${%Function name}">
+        <f:textbox default="${descriptor.defaultFunctionName}"/>
+    </f:entry>
+
+    <f:entry field="region" title="${%Region}" help="/plugin/lambda-test-runner-jenkins-plugin/region.html">
+        <f:textbox/>
+    </f:entry>
+
+    <f:entry field="repoUri" title="${%Repo URI}" help="/plugin/lambda-test-runner-jenkins-plugin/repo-uri.html">
+        <f:textbox/>
+    </f:entry>
+
+    <f:entry field="command" title="${%Command}" help="/plugin/lambda-test-runner-jenkins-plugin/command.html">
+        <f:textbox/>
+    </f:entry>
+
+    <f:entry field="branch" title="${%Branch}" help="/plugin/lambda-test-runner-jenkins-plugin/branch.html">
+        <f:textbox/>
+    </f:entry>
+
+    <f:entry field="storeToS3" title="${%Dirs to store to S3}" help="/plugin/lambda-test-runner-jenkins-plugin/store-to-s3.html">
+        <f:textbox/>
+    </f:entry>
+
+</j:jelly>

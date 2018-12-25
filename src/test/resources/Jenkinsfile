@@ -1,0 +1,13 @@
+pipeline {
+    agent any
+    options {
+        timestamps()
+    }
+    stages {
+        stage('Plugin') {
+            steps {
+                lambdaTestRunner command: './mvnw test -Dtest=SmokeTest -Dmaven.repo.local=${MAVEN_USER_HOME}', functionName: 'LambdaTestRunner', region: 'eu-west-2', repoUri: 'https://github.com/automatictester/lambda-test-runner.git'
+            }
+        }
+    }
+}
