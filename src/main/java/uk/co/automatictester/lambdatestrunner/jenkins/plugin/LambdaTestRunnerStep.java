@@ -23,8 +23,8 @@ public class LambdaTestRunnerStep extends Step {
     public final String s3Bucket;
     public final String repoUri;
     public final String command;
-    private String branch;
-    private String storeToS3;
+    public String branch;
+    public String storeToS3;
 
     @DataBoundConstructor
     public LambdaTestRunnerStep(String functionName, String region, String s3Bucket, String repoUri, String command) {

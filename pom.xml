@@ -198,13 +198,6 @@
             <version>1.22</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.jenkins-ci.plugins</groupId>
-            <artifactId>timestamper</artifactId>
-            <version>1.8.10</version>
-            <scope>test</scope>
-        </dependency>
         <!-- END: required to make integration tests work -->
 
         <!-- required due to maven-enforcer-plugin -->

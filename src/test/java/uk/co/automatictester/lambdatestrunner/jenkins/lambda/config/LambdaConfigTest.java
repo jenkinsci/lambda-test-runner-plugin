@@ -14,6 +14,6 @@ public class LambdaConfigTest {
         LambdaConfig lambdaConfig = new LambdaConfig(name, region, bucket);
         assertEquals(lambdaConfig.getFunctionName(), name);
         assertEquals(lambdaConfig.getRegion(), region);
-        assertEquals(lambdaConfig.getS3Bucket(), region);
+        assertEquals(lambdaConfig.getS3Bucket(), bucket);
     }
 }

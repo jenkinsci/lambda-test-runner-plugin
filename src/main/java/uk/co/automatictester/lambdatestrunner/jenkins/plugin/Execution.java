@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.model.InvokeRequest;
 import com.amazonaws.services.lambda.model.InvokeResult;
 import com.amazonaws.services.lambda.model.ResourceNotFoundException;
 import com.amazonaws.services.lambda.model.TooManyRequestsException;
+import hudson.FilePath;
 import hudson.model.Result;
 import hudson.model.TaskListener;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
@@ -13,6 +14,8 @@ import uk.co.automatictester.lambdatestrunner.jenkins.lambda.AWSLambdaFactory;
 import uk.co.automatictester.lambdatestrunner.jenkins.lambda.InvokeRequestFactory;
 import uk.co.automatictester.lambdatestrunner.jenkins.lambda.config.LambdaConfig;
 import uk.co.automatictester.lambdatestrunner.jenkins.lambda.config.LambdaConfigValidator;
+import uk.co.automatictester.lambdatestrunner.jenkins.outputs.BuildOutputDownloader;
+import uk.co.automatictester.lambdatestrunner.jenkins.outputs.BuildOutputExtractor;
 import uk.co.automatictester.lambdatestrunner.jenkins.request.Request;
 import uk.co.automatictester.lambdatestrunner.jenkins.request.RequestMapper;
 import uk.co.automatictester.lambdatestrunner.jenkins.request.RequestTransformer;
@@ -22,7 +25,11 @@ import uk.co.automatictester.lambdatestrunner.jenkins.response.ResponseMapper;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -46,8 +53,46 @@ public class Execution extends SynchronousNonBlockingStepExecution<Integer> {
         logRequestParameters(request);
         InvokeRequest invokeRequest = getInvokeRequest(request);
         Optional<InvokeResult> invokeResult = invokeLambda(invokeRequest);
-        invokeResult.ifPresent(this::logResponseDetails);
+        if (invokeResult.isPresent()) {
+            Response response = getResponse(invokeResult.get());
+            logResponseDetails(response);
+            String destinationDir = getDownloadDestinationDir();
+            BuildOutputDownloader downloader = new BuildOutputDownloader(lambdaConfig.getS3Bucket(), response.getS3Prefix(), destinationDir);
+            downloader.download();
+            BuildOutputExtractor extractor = new BuildOutputExtractor(destinationDir);
+            extractor.explode();
+            String logFile = String.format("%s/%s/test-execution.log", destinationDir, response.getS3Prefix());
+            logTestExecutionOutput(logFile);
+        }
         return 0;
+    }
+
+    private String getDownloadDestinationDir() {
+        return String.format("%s/downloads", getPresentWorkingDir());
+    }
+
+    private void logTestExecutionOutput(String logFile) {
+        Path path = Paths.get(logFile);
+        String content = null;
+        try {
+            content = Files.lines(path).collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            setResultToFailure();
+            log("ERROR: Cannot read the log file '" + logFile + "': " + e.getMessage());
+        }
+        log("===== Test execution log from Lambda =====");
+        log(content);
+    }
+
+    private String getPresentWorkingDir() {
+        String pwd = null;
+        try {
+            pwd = getContext().get(FilePath.class).absolutize().toString();
+        } catch (IOException | InterruptedException e) {
+            setResultToFailure();
+            log("ERROR: Cannot read present working directory: " + e.getMessage());
+        }
+        return pwd;
     }
 
     private void logLambdaInvocation() {
@@ -85,9 +130,12 @@ public class Execution extends SynchronousNonBlockingStepExecution<Integer> {
         return result;
     }
 
-    private void logResponseDetails(InvokeResult invokeResult) {
+    private Response getResponse(InvokeResult invokeResult) {
         String responseBody = new String(invokeResult.getPayload().array(), UTF_8);
-        Response response = ResponseMapper.asObject(responseBody);
+        return ResponseMapper.asObject(responseBody);
+    }
+
+    private void logResponseDetails(Response response) {
         log("===== Response =====");
         log("RequestId: " + response.getRequestId());
         log("Command exit code: " + response.getExitCode());
@@ -104,6 +152,7 @@ public class Execution extends SynchronousNonBlockingStepExecution<Integer> {
             PrintStream printStream = getContext().get(TaskListener.class).getLogger();
             printStream.println(message);
         } catch (IOException | InterruptedException e) {
+            setResultToFailure();
             throw new RuntimeException(e);
         }
     }

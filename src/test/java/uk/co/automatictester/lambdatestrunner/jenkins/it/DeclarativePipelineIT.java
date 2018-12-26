@@ -3,6 +3,7 @@ package uk.co.automatictester.lambdatestrunner.jenkins.it;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,6 +16,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
+/*
+ * This integration test requires LambdaTestRunner to be deployed and ready to use as described in its readme:
+ * https://github.com/automatictester/lambda-test-runner
+ */
 public class DeclarativePipelineIT {
 
     @Rule
@@ -22,6 +27,11 @@ public class DeclarativePipelineIT {
 
     @ClassRule
     public static BuildWatcher buildWatcher = new BuildWatcher();
+
+    @BeforeClass
+    public static void removeEnvVar() {
+        System.clearProperty("mockS3");
+    }
 
     @Test
     public void declarativePipelineTest() throws Exception {
@@ -35,6 +45,8 @@ public class DeclarativePipelineIT {
         jenkinsRule.assertLogContains("Starting Lambda function 'LambdaTestRunner' in region 'eu-west-2'", build);
         jenkinsRule.assertLogContains("command: ./mvnw test -Dtest=SmokeTest -Dmaven.repo.local=${MAVEN_USER_HOME}", build);
         jenkinsRule.assertLogContains("Command exit code: 0", build);
+        jenkinsRule.assertLogContains("Running uk.co.automatictester.lambdatestrunner.SmokeTest", build);
+        jenkinsRule.assertLogContains("Tests run: 1, Failures: 0, Errors: 0, Skipped: 0", build);
     }
 
     private String readFileToString(String file) throws IOException {
