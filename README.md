@@ -20,7 +20,7 @@ Jenkins plugin for AWS Lambda Test Runner will:
 
 This is the big picture:
 
-<img src="img/jenkins-plugin-for-aws-lambda-test-runner.png" width="425" height="364"/>
+<img src="img/jenkins-plugin-for-aws-lambda-test-runner.png" width="319" height="273"/>
 
 ## How to install it
 
