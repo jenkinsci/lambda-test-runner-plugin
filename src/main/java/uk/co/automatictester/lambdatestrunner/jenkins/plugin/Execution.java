@@ -56,11 +56,15 @@ public class Execution extends SynchronousNonBlockingStepExecution<Integer> {
         if (invokeResult.isPresent()) {
             Response response = getResponse(invokeResult.get());
             logResponseDetails(response);
+
+            if (response.getExitCode() != 0) setResultToFailure();
+
             String destinationDir = getDownloadDestinationDir();
             BuildOutputDownloader downloader = new BuildOutputDownloader(lambdaConfig.getS3Bucket(), response.getS3Prefix(), destinationDir);
             downloader.download();
             BuildOutputExtractor extractor = new BuildOutputExtractor(destinationDir);
             extractor.explode();
+
             String logFile = String.format("%s/%s/test-execution.log", destinationDir, response.getS3Prefix());
             logTestExecutionOutput(logFile);
         }
