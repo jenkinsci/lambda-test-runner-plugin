@@ -7,6 +7,11 @@
     <f:entry field="region" title="${%Region}" help="/plugin/lambda-test-runner-jenkins-plugin/region.html">
         <f:textbox/>
     </f:entry>
+    </f:entry>
+
+    <f:entry field="s3Bucket" title="${%S3 bucket}" help="/plugin/lambda-test-runner-jenkins-plugin/s3-bucket.html">
+        <f:textbox/>
+    </f:entry>
 
     <f:entry field="repoUri" title="${%Repo URI}" help="/plugin/lambda-test-runner-jenkins-plugin/repo-uri.html">
         <f:textbox/>

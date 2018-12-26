@@ -10,8 +10,10 @@ public class LambdaConfigTest {
     public void testLambdaConfig() {
         String name = "name";
         String region = "region";
-        LambdaConfig lambdaConfig = new LambdaConfig(name, region);
+        String bucket = "bucket";
+        LambdaConfig lambdaConfig = new LambdaConfig(name, region, bucket);
         assertEquals(lambdaConfig.getFunctionName(), name);
         assertEquals(lambdaConfig.getRegion(), region);
+        assertEquals(lambdaConfig.getS3Bucket(), region);
     }
 }

@@ -20,15 +20,17 @@ public class LambdaTestRunnerStep extends Step {
 
     public final String functionName;
     public final String region;
+    public final String s3Bucket;
     public final String repoUri;
     public final String command;
     private String branch;
     private String storeToS3;
 
     @DataBoundConstructor
-    public LambdaTestRunnerStep(String functionName, String region, String repoUri, String command) {
+    public LambdaTestRunnerStep(String functionName, String region, String s3Bucket, String repoUri, String command) {
         this.functionName = functionName;
         this.region = region;
+        this.s3Bucket = s3Bucket;
         this.repoUri = repoUri;
         this.command = command;
     }
@@ -45,7 +47,7 @@ public class LambdaTestRunnerStep extends Step {
 
     @Override
     public StepExecution start(StepContext context) {
-        LambdaConfig lambdaConfig = new LambdaConfig(functionName, region);
+        LambdaConfig lambdaConfig = new LambdaConfig(functionName, region, s3Bucket);
 
         Request rawRequest = new Request();
         rawRequest.setRepoUri(repoUri);

@@ -1,3 +1,5 @@
 .idea/
+downloads/
+build-output-extractor-test/
 target/
 work/

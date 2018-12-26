@@ -20,6 +20,8 @@
     <properties>
         <jenkins.version>2.150.1</jenkins.version>
         <java.level>8</java.level>
+        <aws.sdk.version>1.11.475</aws.sdk.version>
+        <jackson.version>2.9.8</jackson.version>
     </properties>
 
     <licenses>
@@ -48,6 +50,7 @@
                 <version>2.22.1</version>
                 <configuration>
                     <useSystemClassLoader>false</useSystemClassLoader>
+                    <argLine>-DmockS3</argLine>
                 </configuration>
             </plugin>
 
@@ -90,7 +93,19 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-lambda</artifactId>
-            <version>1.11.475</version>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.zeroturnaround</groupId>
+            <artifactId>zt-zip</artifactId>
+            <version>1.13</version>
         </dependency>
 
         <dependency>
@@ -103,13 +118,13 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.8</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.8</version>
+            <version>${jackson.version}</version>
         </dependency>
         <!-- END: required due to maven-enforcer-plugin -->
 
@@ -117,6 +132,13 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.14.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.findify</groupId>
+            <artifactId>s3mock_2.12</artifactId>
+            <version>0.2.5</version>
             <scope>test</scope>
         </dependency>
 

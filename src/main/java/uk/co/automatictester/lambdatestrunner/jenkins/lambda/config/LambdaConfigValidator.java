@@ -7,6 +7,7 @@ public class LambdaConfigValidator {
     public static void validate(LambdaConfig lambdaConfig) {
         validateFunctionName(lambdaConfig.getFunctionName());
         validateRegion(lambdaConfig.getRegion());
+        validateS3Bucket(lambdaConfig.getS3Bucket());
     }
 
     private static void validateFunctionName(String functionName) {
@@ -18,6 +19,12 @@ public class LambdaConfigValidator {
     private static void validateRegion(String region) {
         if (region == null || region.equals("")) {
             throw new IllegalArgumentException("region not defined");
+        }
+    }
+
+    private static void validateS3Bucket(String s3Bucket) {
+        if (s3Bucket == null || s3Bucket.equals("")) {
+            throw new IllegalArgumentException("s3Bucket not defined");
         }
     }
 }

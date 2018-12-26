@@ -22,7 +22,6 @@ import uk.co.automatictester.lambdatestrunner.jenkins.response.ResponseMapper;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
