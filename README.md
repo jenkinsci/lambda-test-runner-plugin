@@ -62,6 +62,8 @@ pipeline {
 }
 ```
 
+Please note that `functionName`, `region` and `s3Bucket` have to match deployed AWS Lambda Test Runner settings.
+
 ## Limitations
 
 This plugin will only work when executed from Jenkins Master. Execution from Jenkins Agents is neither 
