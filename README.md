@@ -20,7 +20,7 @@ Jenkins plugin for AWS Lambda Test Runner will:
 
 This is the big picture:
 
-<img src="img/jenkins-plugin-for-aws-lambda-test-runner.png" width="480" height="410"/>
+<img src="img/jenkins-plugin-for-aws-lambda-test-runner.png" width="425" height="364"/>
 
 ## How to install it
 
@@ -29,8 +29,8 @@ Plugin is not yet available in official Jenkins plugin repository.
 Manual installation guide:
 - Clone this repo.
 - Build HPI file: `./mvnw clean package -DskipTests`.
-- Navigate to `https://<your-jenkins-instance>/pluginManager/advanced` and upload
- `target/lambda-test-runner-jenkins-plugin.hpi` under `Upload Plugin`.
+- Navigate to `https://<your-jenkins-instance>/pluginManager/advanced`.
+- Upload `target/lambda-test-runner-jenkins-plugin.hpi` under `Upload Plugin`.
 
 Other requirements:
 - Required Jenkins version: 2.150.1 or higher.
