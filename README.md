@@ -26,14 +26,15 @@ This is the big picture:
 
 Plugin is not yet available in official Jenkins plugin repository.
 
-Manual installation guide:
+Plugin installation guide:
 - Clone this repo.
 - Build HPI file: `./mvnw clean package -DskipTests`.
 - Navigate to `https://<your-jenkins-instance>/pluginManager/advanced`.
 - Upload `target/lambda-test-runner-jenkins-plugin.hpi` under `Upload Plugin`.
 
 Other requirements:
-- Required Jenkins version: 2.150.1 or higher.
+- [AWS Lambda Test Runner](https://github.com/automatictester/lambda-test-runner) deployed to AWS cloud.
+- Jenkins version 2.150.1 or higher.
 - Jenkins Master requires IAM permissions for: 
   - Invoking Lambda functions.
   - Downloading content from S3.
