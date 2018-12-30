@@ -1,8 +1,6 @@
 # Jenkins Plugin for AWS Lambda Test Runner
 
-[![Build Status](https://travis-ci.com/automatictester/lambda-test-runner-jenkins-plugin.svg?branch=master)](https://travis-ci.com/automatictester/lambda-test-runner-jenkins-plugin)
-
-Manage execution of [AWS Lambda Test Runner](https://github.com/automatictester/lambda-test-runner) from Jenkins.
+Adds `lambdaTestRunner` pipeline step to trigger execution of [AWS Lambda Test Runner](https://github.com/automatictester/lambda-test-runner).
 
 ## Project goal
 
