@@ -15,7 +15,7 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>AWS Lambda Test Runner</name>
-    <description>Adds pipeline step to trigger execution of AWS Lambda Test Runner from Jenkins</description>
+    <description>Adds pipeline step to trigger execution of AWS Lambda Test Runner</description>
 
     <properties>
         <jenkins.version>2.150.1</jenkins.version>
