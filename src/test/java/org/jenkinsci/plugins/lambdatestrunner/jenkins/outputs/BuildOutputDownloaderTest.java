@@ -28,8 +28,8 @@ public class BuildOutputDownloaderTest {
     public static void setup() {
         if (System.getProperty("mockS3") != null) {
             startS3Mock();
+            maybeCreateBucket();
         }
-        maybeCreateBucket();
         uploadFile("src/test/resources/build-output-extractor/test-execution.log", "test-execution.log");
         uploadFile("src/test/resources/build-output-extractor/target-dir/failsafe-reports.zip", "target-dir/failsafe-reports.zip");
         uploadFile("src/test/resources/build-output-extractor/target-dir/surefire-reports.zip", "target-dir/surefire-reports.zip");
