@@ -1,9 +1,9 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.outputs;
 
 import org.apache.commons.io.FileUtils;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,19 +12,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class BuildOutputExtractorTest {
 
     private final String source = "src/test/resources/build-output-extractor";
     private final String target = source + "-test";
 
-    @BeforeMethod
+    @Before
     public void setup() throws IOException {
         FileUtils.copyDirectory(new File(source), new File(target));
     }
 
-    @AfterMethod
+    @After
     public void teardown() throws IOException {
         FileUtils.deleteDirectory(new File(target));
     }

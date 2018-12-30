@@ -1,9 +1,9 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.outputs;
 
 import com.amazonaws.services.s3.AmazonS3;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-import static org.testng.Assert.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
 public class AmazonS3FactoryTest {
 

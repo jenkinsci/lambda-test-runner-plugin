@@ -1,12 +1,12 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.request;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class RequestTransformerTest {
 
@@ -17,7 +17,7 @@ public class RequestTransformerTest {
 
     private Request rawRequest;
 
-    @BeforeMethod(alwaysRun = true)
+    @Before
     public void createRequest() {
         rawRequest = new Request();
         rawRequest.setRepoUri(REPO_URI);

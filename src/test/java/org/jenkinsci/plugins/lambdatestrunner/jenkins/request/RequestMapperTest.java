@@ -1,10 +1,10 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.request;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import java.util.Collections;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class RequestMapperTest {
 

@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.request;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +11,7 @@ public class RequestValidatorTest {
 
     private Request rawRequest;
 
-    @BeforeMethod(alwaysRun = true)
+    @Before
     public void createRequest() {
         List<String> dirsToStore = new ArrayList<>();
         dirsToStore.add("target/surefire-reports");
@@ -29,31 +29,31 @@ public class RequestValidatorTest {
         RequestValidator.validate(rawRequest);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRepoUriNull() {
         rawRequest.setRepoUri(null);
         RequestValidator.validate(rawRequest);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRepoUriEmptyString() {
         rawRequest.setRepoUri("");
         RequestValidator.validate(rawRequest);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRepoUriUnknown() {
         rawRequest.setRepoUri("ftp://github.com/automatictester/lambda-test-runner-jenkins-plugin.git");
         RequestValidator.validate(rawRequest);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCommandNull() {
         rawRequest.setCommand(null);
         RequestValidator.validate(rawRequest);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCommandEmptyString() {
         rawRequest.setCommand("");
         RequestValidator.validate(rawRequest);
@@ -71,7 +71,7 @@ public class RequestValidatorTest {
         RequestValidator.validate(rawRequest);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testStoreToS3InvalidElement() {
         rawRequest.setStoreToS3(Collections.singletonList("/tmp/repo/target/failsafe-reports"));
         RequestValidator.validate(rawRequest);

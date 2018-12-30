@@ -24,7 +24,7 @@ This is the big picture:
 
 Plugin is not yet available in official Jenkins plugin repository.
 
-Plugin installation guide:
+Manual plugin installation guide:
 - Clone this repo.
 - Build HPI file: `./mvnw clean package -DskipTests`.
 - Navigate to `https://<your-jenkins-instance>/pluginManager/advanced`.
@@ -43,8 +43,6 @@ Jenkins Plugin for AWS Lambda Test Runner adds `lambdaTestRunner` to available J
 Below is a sample Jenkinsfile with Declarative Pipeline which implements complete end-to-end functionality: 
 
 ```groovy
-#!groovy
-
 pipeline {
     agent {
         label 'master'
@@ -52,7 +50,6 @@ pipeline {
     stages {
         stage('Plugin') {
             steps {
-                cleanWs()
                 lambdaTestRunner branch: 'master', command: './mvnw -pl lightning-core verify -DmockS3 -Dmaven.repo.local=${MAVEN_USER_HOME}', functionName: 'LambdaTestRunner', region: 'eu-west-2', repoUri: 'https://github.com/automatictester/lightning.git', s3Bucket: 'automatictester.co.uk-lambda-test-runner-build-outputs', storeToS3: 'lightning-core/target/surefire-reports,lightning-core/target/failsafe-reports'
                 junit 'downloads/**/junitreports/*.xml'
             }

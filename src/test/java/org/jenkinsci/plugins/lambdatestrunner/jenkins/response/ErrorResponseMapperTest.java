@@ -1,9 +1,9 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.response;
 
 import groovy.json.JsonException;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ErrorResponseMapperTest {
 
@@ -18,7 +18,7 @@ public class ErrorResponseMapperTest {
         assertEquals(mappedResponse, errorResponse);
     }
 
-    @Test(expectedExceptions = JsonException.class)
+    @Test(expected = JsonException.class)
     public void testAsObjectException() {
         String errorResponseBody = "{\"errorMessage\": ";
         ErrorResponseMapper.asObject(errorResponseBody);

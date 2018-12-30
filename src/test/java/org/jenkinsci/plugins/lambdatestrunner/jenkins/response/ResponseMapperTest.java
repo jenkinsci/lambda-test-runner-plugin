@@ -1,9 +1,9 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.response;
 
 import groovy.json.JsonException;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ResponseMapperTest {
 
@@ -21,7 +21,7 @@ public class ResponseMapperTest {
         assertEquals(mappedResponse, response);
     }
 
-    @Test(expectedExceptions = JsonException.class)
+    @Test(expected = JsonException.class)
     public void testAsObjectException() {
         String responseBody = "{\"exitCode\": 0";
         ResponseMapper.asObject(responseBody);

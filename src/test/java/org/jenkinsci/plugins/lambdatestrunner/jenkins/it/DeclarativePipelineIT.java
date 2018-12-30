@@ -17,8 +17,10 @@ import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 /*
- * This integration test requires LambdaTestRunner to be deployed and ready to use as described in its readme:
+ * To run this test you need AWS Lambda Test Runner to be deployed and ready to use as described in its readme:
  * https://github.com/automatictester/lambda-test-runner
+ * There is no publicly available instance of AWS Lambda Test Runner due to cost implications.
+ * Unless you set it up in your own AWS account, do not expect this test to pass.
  */
 public class DeclarativePipelineIT {
 
