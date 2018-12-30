@@ -10,12 +10,12 @@
         <relativePath/>
     </parent>
 
-    <groupId>uk.co.automatictester</groupId>
-    <artifactId>lambda-test-runner-jenkins-plugin</artifactId>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>lambda-test-runner</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
-    <name>lambda-test-runner-jenkins-plugin</name>
-    <description>Jenkins Plugin for AWS Lambda Test Runner</description>
+    <name>AWS Lambda Test Runner</name>
+    <description>Adds pipeline step to trigger execution of AWS Lambda Test Runner from Jenkins</description>
 
     <properties>
         <jenkins.version>2.150.1</jenkins.version>
@@ -232,5 +232,13 @@
             <url>https://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <developers>
+        <developer>
+            <id>ipastusiak</id>
+            <name>Ireneusz Pastusiak</name>
+            <email>ireneusz.pastusiak@gmail.com</email>
+        </developer>
+    </developers>
 
 </project>
