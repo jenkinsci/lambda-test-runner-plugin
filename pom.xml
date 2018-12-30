@@ -12,7 +12,7 @@
 
     <groupId>uk.co.automatictester</groupId>
     <artifactId>lambda-test-runner-jenkins-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>lambda-test-runner-jenkins-plugin</name>
     <description>Jenkins Plugin for AWS Lambda Test Runner</description>
