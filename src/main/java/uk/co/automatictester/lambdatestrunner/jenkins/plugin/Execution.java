@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.model.InvokeRequest;
 import com.amazonaws.services.lambda.model.InvokeResult;
 import com.amazonaws.services.lambda.model.ResourceNotFoundException;
 import com.amazonaws.services.lambda.model.TooManyRequestsException;
+import groovy.json.JsonException;
 import hudson.FilePath;
 import hudson.model.Result;
 import hudson.model.TaskListener;
@@ -20,6 +21,8 @@ import uk.co.automatictester.lambdatestrunner.jenkins.request.Request;
 import uk.co.automatictester.lambdatestrunner.jenkins.request.RequestMapper;
 import uk.co.automatictester.lambdatestrunner.jenkins.request.RequestTransformer;
 import uk.co.automatictester.lambdatestrunner.jenkins.request.RequestValidator;
+import uk.co.automatictester.lambdatestrunner.jenkins.response.ErrorResponse;
+import uk.co.automatictester.lambdatestrunner.jenkins.response.ErrorResponseMapper;
 import uk.co.automatictester.lambdatestrunner.jenkins.response.Response;
 import uk.co.automatictester.lambdatestrunner.jenkins.response.ResponseMapper;
 
@@ -54,7 +57,15 @@ public class Execution extends SynchronousNonBlockingStepExecution<Integer> {
         InvokeRequest invokeRequest = getInvokeRequest(request);
         Optional<InvokeResult> invokeResult = invokeLambda(invokeRequest);
         if (invokeResult.isPresent()) {
-            Response response = getResponse(invokeResult.get());
+            Response response = null;
+            try {
+                response = getResponse(invokeResult.get());
+            } catch (JsonException e) {
+                setResultToFailure();
+                ErrorResponse errorResponse = getErrorResponse(invokeResult.get());
+                logErrorResponseDetails(errorResponse);
+                return 0;
+            }
             logResponseDetails(response);
 
             if (response.getExitCode() != 0) setResultToFailure();
@@ -139,11 +150,22 @@ public class Execution extends SynchronousNonBlockingStepExecution<Integer> {
         return ResponseMapper.asObject(responseBody);
     }
 
+    private ErrorResponse getErrorResponse(InvokeResult invokeResult) {
+        String responseBody = new String(invokeResult.getPayload().array(), UTF_8);
+        return ErrorResponseMapper.asObject(responseBody);
+    }
+
     private void logResponseDetails(Response response) {
         log("===== Response =====");
         log("RequestId: " + response.getRequestId());
         log("Command exit code: " + response.getExitCode());
         log("S3 prefix: " + response.getS3Prefix());
+        log("");
+    }
+
+    private void logErrorResponseDetails(ErrorResponse errorResponse) {
+        log("===== Error Response =====");
+        log("Error Message: " + errorResponse.getErrorMessage());
         log("");
     }
 

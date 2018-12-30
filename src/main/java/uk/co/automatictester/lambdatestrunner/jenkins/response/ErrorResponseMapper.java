@@ -5,15 +5,15 @@ import groovy.json.JsonException;
 
 import java.io.IOException;
 
-public class ResponseMapper {
+public class ErrorResponseMapper {
 
-    private ResponseMapper() {
+    private ErrorResponseMapper() {
     }
 
-    public static Response asObject(String responseBody) {
+    public static ErrorResponse asObject(String responseBody) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(responseBody, Response.class);
+            return objectMapper.readValue(responseBody, ErrorResponse.class);
         } catch (IOException e) {
             throw new JsonException("Error reading JSON: " + e.getMessage());
         }
