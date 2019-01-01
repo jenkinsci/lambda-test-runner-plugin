@@ -19,6 +19,7 @@ import org.jenkinsci.plugins.lambdatestrunner.jenkins.request.RequestMapper;
 import org.jenkinsci.plugins.lambdatestrunner.jenkins.response.Response;
 import org.jenkinsci.plugins.lambdatestrunner.jenkins.response.ResponseMapper;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -50,7 +51,15 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
         InvokeRequest invokeRequest = getInvokeRequest();
         Optional<InvokeResult> invokeResult = invokeLambda(invokeRequest);
         if (invokeResult.isPresent()) {
-            Response response = getResponse(invokeResult.get());
+            String responseBody = new String(invokeResult.get().getPayload().array(), UTF_8);
+            Response response;
+            try {
+                response = ResponseMapper.asObject(responseBody);
+            } catch (IOException e) {
+                JSONObject json = new JSONObject(responseBody);
+                log("ERROR: Unexpected response\n\n" + json.toString(3));
+                return null;
+            }
             logResponseDetails(response);
             if (response.getExitCode() != 0) setResultToFailure();
 
@@ -86,7 +95,7 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
         return result;
     }
 
-    private Response getResponse(InvokeResult invokeResult) {
+    private Response getResponse(InvokeResult invokeResult) throws IOException {
         String responseBody = new String(invokeResult.getPayload().array(), UTF_8);
         return ResponseMapper.asObject(responseBody);
     }
@@ -97,15 +106,13 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
 
     private void logTestExecutionOutput(String logFile) {
         Path path = Paths.get(logFile);
-        String content = null;
         try {
-            content = Files.lines(path).collect(Collectors.joining("\n"));
+            String content = Files.lines(path).collect(Collectors.joining("\n"));
+            log("===== Test execution log from Lambda =====\n" + content);
         } catch (IOException e) {
             setResultToFailure();
             log("ERROR: Cannot read the log file '" + logFile + "': " + e.getMessage());
         }
-        log("===== Test execution log from Lambda ====="); // TODO log("");
-        log(content);
     }
 
     private String getPresentWorkingDir() {
