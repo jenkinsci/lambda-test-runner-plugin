@@ -1,9 +1,9 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.plugin;
 
 import com.amazonaws.services.lambda.AWSLambda;
+import com.amazonaws.services.lambda.model.AWSLambdaException;
 import com.amazonaws.services.lambda.model.InvokeRequest;
 import com.amazonaws.services.lambda.model.InvokeResult;
-import com.amazonaws.services.lambda.model.ResourceNotFoundException;
 import com.amazonaws.services.lambda.model.TooManyRequestsException;
 import hudson.FilePath;
 import hudson.model.Result;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, RuntimeException> {
+public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Exception> {
 
     private final StepContext context;
     private final TaskListener taskListener;
@@ -47,7 +47,7 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
     }
 
     @Override
-    public Void call() throws RuntimeException {
+    public Void call() throws Exception {
         InvokeRequest invokeRequest = getInvokeRequest();
         Optional<InvokeResult> invokeResult = invokeLambda(invokeRequest);
         if (invokeResult.isPresent()) {
@@ -88,7 +88,7 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
         } catch (TooManyRequestsException e) {
             log("ERROR: " + e.getReason());
             setResultToFailure();
-        } catch (ResourceNotFoundException e) {
+        } catch (AWSLambdaException e) {
             log("ERROR: " + e.getMessage());
             setResultToFailure();
         }
@@ -103,8 +103,7 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
         Path path = Paths.get(logFile);
         try {
             String content = Files.lines(path).collect(Collectors.joining("\n"));
-            log("===== Test execution log from Lambda =====\n");
-            log("");
+            log("===== Test execution log from Lambda =====");
             log(content);
         } catch (IOException e) {
             setResultToFailure();
