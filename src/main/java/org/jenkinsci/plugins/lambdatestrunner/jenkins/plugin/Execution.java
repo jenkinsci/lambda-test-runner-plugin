@@ -3,7 +3,7 @@ package org.jenkinsci.plugins.lambdatestrunner.jenkins.plugin;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.TaskListener;
-import hudson.remoting.Callable;
+import hudson.remoting.VirtualChannel;
 import org.jenkinsci.plugins.lambdatestrunner.jenkins.lambda.config.LambdaConfig;
 import org.jenkinsci.plugins.lambdatestrunner.jenkins.lambda.config.LambdaConfigValidator;
 import org.jenkinsci.plugins.lambdatestrunner.jenkins.request.Request;
@@ -32,18 +32,9 @@ public class Execution extends SynchronousNonBlockingStepExecution<Void> {
         logLambdaInvocation();
         logRequestParameters(request);
         LambdaTestRunnerCallable callable = getCallable(request);
-        executeOnSlave(callable);
+        SlaveExecution slaveExecution = executeOnSlave(callable);
+        handleExecutionResult(slaveExecution);
         return null;
-    }
-
-    private LambdaTestRunnerCallable getCallable(Request request) throws IOException, InterruptedException {
-        TaskListener taskListener = getContext().get(TaskListener.class);
-        FilePath filePath = getContext().get(FilePath.class);
-        return new LambdaTestRunnerCallable(getContext(), taskListener, filePath, lambdaConfig, request);
-    }
-
-    private void executeOnSlave(Callable callable) throws IOException, InterruptedException {
-        getContext().get(Launcher.class).getChannel().call(callable);
     }
 
     private void validateInput() {
@@ -52,9 +43,8 @@ public class Execution extends SynchronousNonBlockingStepExecution<Void> {
     }
 
     private void logLambdaInvocation() throws IOException, InterruptedException {
-        String message = String.format("Starting Lambda function '%s' in region '%s'", lambdaConfig.getFunctionName(), lambdaConfig.getRegion());
+        String message = String.format("Starting Lambda function '%s' in region '%s'%n", lambdaConfig.getFunctionName(), lambdaConfig.getRegion());
         log(message);
-        log("");
     }
 
     private void logRequestParameters(Request request) throws IOException, InterruptedException {
@@ -62,8 +52,28 @@ public class Execution extends SynchronousNonBlockingStepExecution<Void> {
         log("repoUri: " + request.getRepoUri());
         log("command: " + request.getCommand());
         log("branch: " + request.getBranch());
-        if (request.getStoreToS3() != null) log("storeToS3: " + request.getStoreToS3());
-        log("");
+        if (request.getStoreToS3() != null) log("storeToS3: " + request.getStoreToS3() + "\n");
+    }
+
+    private LambdaTestRunnerCallable getCallable(Request request) throws IOException, InterruptedException {
+        FilePath filePath = getContext().get(FilePath.class);
+        return new LambdaTestRunnerCallable(filePath, lambdaConfig, request);
+    }
+
+    private SlaveExecution executeOnSlave(LambdaTestRunnerCallable callable) throws Exception {
+        Launcher launcher = getContext().get(Launcher.class);
+        if (launcher != null) {
+            VirtualChannel channel = launcher.getChannel();
+            if (channel != null) {
+                return channel.call(callable);
+            }
+        }
+        return null;
+    }
+
+    private void handleExecutionResult(SlaveExecution slaveExecution) throws IOException, InterruptedException {
+        log(slaveExecution.getExecutionLog());
+        getContext().setResult(slaveExecution.getResult());
     }
 
     private void log(String message) throws IOException, InterruptedException {
