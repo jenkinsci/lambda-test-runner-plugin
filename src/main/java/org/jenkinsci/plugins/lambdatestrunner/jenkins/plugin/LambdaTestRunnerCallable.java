@@ -95,11 +95,6 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
         return result;
     }
 
-    private Response getResponse(InvokeResult invokeResult) throws IOException {
-        String responseBody = new String(invokeResult.getPayload().array(), UTF_8);
-        return ResponseMapper.asObject(responseBody);
-    }
-
     private String getDownloadDestinationDir() {
         return String.format("%s/downloads", getPresentWorkingDir());
     }
@@ -108,7 +103,9 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
         Path path = Paths.get(logFile);
         try {
             String content = Files.lines(path).collect(Collectors.joining("\n"));
-            log("===== Test execution log from Lambda =====\n" + content);
+            log("===== Test execution log from Lambda =====\n");
+            log("");
+            log(content);
         } catch (IOException e) {
             setResultToFailure();
             log("ERROR: Cannot read the log file '" + logFile + "': " + e.getMessage());
