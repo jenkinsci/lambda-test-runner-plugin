@@ -57,7 +57,7 @@ public class LambdaTestRunnerCallable extends MasterToSlaveCallable<Void, Runtim
                 response = ResponseMapper.asObject(responseBody);
             } catch (IOException e) {
                 JSONObject json = new JSONObject(responseBody);
-                log("ERROR: Unexpected response\n\n" + json.toString(3));
+                log("===== Unexpected response =====\n" + json.toString(3));
                 return null;
             }
             logResponseDetails(response);
