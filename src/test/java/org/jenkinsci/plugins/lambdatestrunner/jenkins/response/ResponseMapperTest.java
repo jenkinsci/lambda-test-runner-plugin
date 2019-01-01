@@ -1,14 +1,15 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.response;
 
-import groovy.json.JsonException;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class ResponseMapperTest {
 
     @Test
-    public void testAsObject() {
+    public void testAsObject() throws IOException {
         String responseBody = "{\"exitCode\": 0, \"output\": \"all good\", \"requestId\": \"b5fff7ea-085e-11e9-a665-db2069b28de5\", \"s3Prefix\": \"2018-12-23-16-00-41\"}";
 
         Response response = new Response();
@@ -21,8 +22,8 @@ public class ResponseMapperTest {
         assertEquals(mappedResponse, response);
     }
 
-    @Test(expected = JsonException.class)
-    public void testAsObjectException() {
+    @Test(expected = IOException.class)
+    public void testAsObjectException() throws IOException {
         String responseBody = "{\"exitCode\": 0";
         ResponseMapper.asObject(responseBody);
     }
