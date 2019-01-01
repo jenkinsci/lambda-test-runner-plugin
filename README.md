@@ -33,7 +33,7 @@ Manual plugin installation guide:
 Other requirements:
 - [AWS Lambda Test Runner](https://github.com/automatictester/lambda-test-runner) deployed to AWS cloud.
 - Jenkins version 2.150.1 or higher.
-- Jenkins Master requires IAM permissions for: 
+- AWS IAM permissions for: 
   - Invoking Lambda functions.
   - Downloading content from S3.
 
@@ -59,8 +59,3 @@ pipeline {
 ```
 
 Please note that `functionName`, `region` and `s3Bucket` have to match deployed AWS Lambda Test Runner settings.
-
-## Limitations
-
-This plugin will only work when executed from Jenkins Master. Execution from Jenkins Agents is neither 
-expected nor supported. If you would like this feature, please vote for [issue #3](https://github.com/automatictester/lambda-test-runner-jenkins-plugin/issues/3).
