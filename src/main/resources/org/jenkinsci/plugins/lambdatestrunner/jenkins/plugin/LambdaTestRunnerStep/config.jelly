@@ -29,4 +29,6 @@
         <f:textbox/>
     </f:entry>
 
+    <f:validateButton title="${%Validate}" progress="${%Checking...}" method="validateForm" with="functionName,region,s3Bucket,repoUri,command,branch,storeToS3"/>
+
 </j:jelly>

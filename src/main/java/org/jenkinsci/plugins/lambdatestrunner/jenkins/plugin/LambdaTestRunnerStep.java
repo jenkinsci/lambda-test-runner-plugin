@@ -2,14 +2,16 @@ package org.jenkinsci.plugins.lambdatestrunner.jenkins.plugin;
 
 import hudson.Extension;
 import hudson.model.Run;
+import hudson.util.FormValidation;
+import org.jenkinsci.plugins.lambdatestrunner.jenkins.lambda.config.LambdaConfig;
+import org.jenkinsci.plugins.lambdatestrunner.jenkins.request.Request;
 import org.jenkinsci.plugins.workflow.steps.Step;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
-import org.jenkinsci.plugins.lambdatestrunner.jenkins.lambda.config.LambdaConfig;
-import org.jenkinsci.plugins.lambdatestrunner.jenkins.request.Request;
+import org.kohsuke.stapler.QueryParameter;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -76,7 +78,16 @@ public class LambdaTestRunnerStep extends Step {
         @Nonnull
         @Override
         public String getDisplayName() {
-            return "Run AWS Lambda Test Runner";
+            return "Trigger execution of AWS Lambda Test Runner";
+        }
+
+        public FormValidation doValidateForm(@QueryParameter("functionName") final String functionName,
+                                             @QueryParameter("region") final String region,
+                                             @QueryParameter("s3Bucket") final String s3Bucket,
+                                             @QueryParameter("repoUri") final String repoUri,
+                                             @QueryParameter("command") final String command,
+                                             @QueryParameter("storeToS3") final String storeToS3) {
+            return FormValidator.validate(functionName, region, s3Bucket, repoUri, command, storeToS3);
         }
     }
 }
