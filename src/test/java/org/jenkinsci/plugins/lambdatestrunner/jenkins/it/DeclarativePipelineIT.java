@@ -3,10 +3,7 @@ package org.jenkinsci.plugins.lambdatestrunner.jenkins.it;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.jvnet.hudson.test.BuildWatcher;
 import org.jvnet.hudson.test.JenkinsRule;
 
@@ -22,6 +19,7 @@ import java.util.stream.Collectors;
  * There is no publicly available instance of AWS Lambda Test Runner due to cost implications.
  * Unless you set it up in your own AWS account, do not expect this test to pass.
  */
+@Ignore
 public class DeclarativePipelineIT {
 
     @Rule
