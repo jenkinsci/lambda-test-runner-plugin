@@ -1,5 +1,7 @@
 # Jenkins Plugin for AWS Lambda Test Runner
 
+[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins/lambda-test-runner-plugin/master)](https://ci.jenkins.io/job/Plugins/job/lambda-test-runner-plugin/job/master/)
+
 Adds the Pipeline step `lambdaTestRunner` to trigger execution of [AWS Lambda Test Runner](https://github.com/automatictester/lambda-test-runner).
 
 ## Project goal
