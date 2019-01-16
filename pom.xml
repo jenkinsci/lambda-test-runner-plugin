@@ -10,7 +10,6 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>lambda-test-runner</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
@@ -22,7 +21,7 @@
         <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
     </scm>
 
-    <!--<url>https://wiki.jenkins.io/display/JENKINS/lambda-test-runner-plugin</url>-->
+    <url>https://wiki.jenkins.io/display/JENKINS/Lambda+Test+Runner+Plugin</url>
 
     <properties>
         <jenkins.version>2.150.1</jenkins.version>
