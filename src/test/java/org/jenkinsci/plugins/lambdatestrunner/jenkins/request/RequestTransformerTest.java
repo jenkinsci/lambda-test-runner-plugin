@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RequestTransformerTest {
 
-    private static final String REPO_URI = "https://github.com/automatictester/lambda-test-runner-jenkins-plugin.git";
+    private static final String REPO_URI = "https://github.com/jenkinsci/lambda-test-runner-plugin.git";
     private static final String COMMAND = "./mvnw clean test -Dmaven.repo.local=${MAVEN_USER_HOME}";
     private static final String MASTER = "master";
     private static final String HEAD = "HEAD";

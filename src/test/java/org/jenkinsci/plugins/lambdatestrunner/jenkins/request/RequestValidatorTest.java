@@ -18,7 +18,7 @@ public class RequestValidatorTest {
         dirsToStore.add("target/failsafe-reports");
 
         rawRequest = new Request();
-        rawRequest.setRepoUri("https://github.com/automatictester/lambda-test-runner-jenkins-plugin.git");
+        rawRequest.setRepoUri("https://github.com/jenkinsci/lambda-test-runner-plugin.git");
         rawRequest.setBranch("master");
         rawRequest.setCommand("./mvnw clean test -Dtest=SmokeTest -Dmaven.repo.local=${MAVEN_USER_HOME}");
         rawRequest.setStoreToS3(dirsToStore);
@@ -43,7 +43,7 @@ public class RequestValidatorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRepoUriUnknown() {
-        rawRequest.setRepoUri("ftp://github.com/automatictester/lambda-test-runner-jenkins-plugin.git");
+        rawRequest.setRepoUri("ftp://github.com/jenkinsci/lambda-test-runner-plugin.git");
         RequestValidator.validate(rawRequest);
     }
 
