@@ -26,7 +26,7 @@ public class BuildOutputExtractorTest {
 
     @After
     public void teardown() throws IOException {
-        FileUtils.forceDelete(new File(target));
+        FileUtils.forceDeleteOnExit(new File(target));
     }
 
     @Test
