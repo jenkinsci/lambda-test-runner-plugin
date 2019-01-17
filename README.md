@@ -24,7 +24,8 @@ This is the big picture:
 
 ## How to install it
 
-Plugin is available in official Jenkins plugin repository. If you want to install it, navigate to `https://<your-jenkins-instance>/pluginManager`.
+Plugin is available in official Jenkins plugin repository. If you want to install it, navigate to `https://<your-jenkins-instance>/pluginManager` 
+and search for `AWS Lambda Test Runner`.
 
 If you want to build and install from sources:
 - Clone this repo.
