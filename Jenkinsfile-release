@@ -1,0 +1,30 @@
+// This file is for releasing only. If you are not involved in releasing this plugin, you can ignore it.
+
+pipeline {
+    agent {
+        label 'linux'
+    }
+    options {
+        timestamps()
+        skipDefaultCheckout()
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+    stages {
+        stage('Release') {
+            when {
+                expression {
+                    "${env.BRANCH_NAME}" == "master"
+                }
+            }
+            steps {
+                cleanWs()
+                git credentialsId: 'github-creds-automatictester', url: 'git@github.com:jenkinsci/lambda-test-runner-plugin.git'
+                sshagent(['github-creds-automatictester']) {
+                    sh './mvnw release:clean'
+                    sh './mvnw -B release:prepare release:perform'
+                }
+            }
+        }
+    }
+}
