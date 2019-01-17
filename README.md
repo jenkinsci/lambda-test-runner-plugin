@@ -24,9 +24,9 @@ This is the big picture:
 
 ## How to install it
 
-Plugin is not yet available in official Jenkins plugin repository.
+Plugin is available in official Jenkins plugin repository. If you want to install it, navigate to `https://<your-jenkins-instance>/pluginManager`.
 
-Manual plugin installation guide:
+If you want to build and install from sources:
 - Clone this repo.
 - Build HPI file: `./mvnw clean package -DskipTests`.
 - Navigate to `https://<your-jenkins-instance>/pluginManager/advanced`.
