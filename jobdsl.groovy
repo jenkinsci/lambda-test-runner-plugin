@@ -7,4 +7,9 @@ multibranchPipelineJob('lambda-test-runner-plugin-release') {
             credentialsId('github-creds-automatictester')
         }
     }
+    factory {
+        workflowBranchProjectFactory {
+            scriptPath("Jenkinsfile-release")
+        }
+    }
 }
