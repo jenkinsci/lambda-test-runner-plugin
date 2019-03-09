@@ -53,6 +53,7 @@
                             <rules>
                                 <banDuplicatePomDependencyVersions/>
                                 <requireProfileIdsExist/>
+                                <requireReleaseDeps/>
                             </rules>
                         </configuration>
                     </execution>
