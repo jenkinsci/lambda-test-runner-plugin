@@ -1,7 +1,5 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.outputs;
 
-import com.amazonaws.services.s3.AmazonS3;
-import io.findify.s3mock.S3Mock;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -16,10 +14,8 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.assertTrue;
 
-public class BuildOutputDownloaderTest {
+public class BuildOutputDownloaderTest extends AmazonS3Test {
 
-    private static final S3Mock s3Mock = new S3Mock.Builder().withPort(8001).withInMemoryBackend().build();
-    private static final AmazonS3 amazonS3 = AmazonS3Factory.getInstance();
     private static final String bucket = "automatictester.co.uk-lambda-test-runner-build-outputs";
     private static final String prefix = getPrefix();
     private static final String destinationDir = "downloads";
@@ -27,8 +23,9 @@ public class BuildOutputDownloaderTest {
     @BeforeClass
     public static void setup() {
         if (System.getProperty("mockS3") != null) {
-            startS3Mock();
-            maybeCreateBucket();
+            if (!amazonS3.doesBucketExistV2(bucket)) {
+                amazonS3.createBucket(bucket);
+            }
         }
         uploadFile("src/test/resources/build-output-extractor/test-execution.log", "test-execution.log");
         uploadFile("src/test/resources/build-output-extractor/target-dir/failsafe-reports.zip", "target-dir/failsafe-reports.zip");
@@ -48,19 +45,6 @@ public class BuildOutputDownloaderTest {
     @AfterClass
     public static void teardown() throws IOException {
         FileUtils.deleteDirectory(new File(destinationDir));
-        if (System.getProperty("mockS3") != null) {
-            s3Mock.stop();
-        }
-    }
-
-    private static void startS3Mock() {
-        s3Mock.start();
-    }
-
-    private static void maybeCreateBucket() {
-        if (!amazonS3.doesBucketExistV2(bucket)) {
-            amazonS3.createBucket(bucket);
-        }
     }
 
     private static String getPrefix() {
