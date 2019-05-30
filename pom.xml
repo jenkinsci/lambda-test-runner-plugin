@@ -62,7 +62,9 @@
                             <rules>
                                 <banDuplicatePomDependencyVersions/>
                                 <requireProfileIdsExist/>
-                                <requireReleaseDeps/>
+                                <requireReleaseDeps>
+                                    <onlyWhenRelease>true</onlyWhenRelease>
+                                </requireReleaseDeps>
                             </rules>
                         </configuration>
                     </execution>
@@ -74,7 +76,8 @@
                         </goals>
                         <configuration>
                             <rules>
-                                <requireVersionPattern implementation="uk.co.automatictester.enforcer.rules.RequireVersionPattern">
+                                <requireVersionPattern
+                                        implementation="uk.co.automatictester.enforcer.rules.RequireVersionPattern">
                                     <versionPattern>^\d+\.\d+\.\d+$</versionPattern>
                                 </requireVersionPattern>
                             </rules>
