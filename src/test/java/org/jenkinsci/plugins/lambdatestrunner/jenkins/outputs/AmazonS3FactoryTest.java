@@ -1,8 +1,7 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.outputs;
 
 import com.amazonaws.services.s3.AmazonS3;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,16 +10,23 @@ import static org.junit.Assert.assertNotNull;
 
 public class AmazonS3FactoryTest {
 
+    private static String mockS3value;
+
+    @BeforeClass
+    public static void getMockS3ValueBeforeTest() {
+        mockS3value = System.getProperty("mockS3");
+    }
+
+    @AfterClass
+    public static void restoreMockS3ValueFromBeforeTest() {
+        System.setProperty("mockS3", mockS3value);
+    }
+
     @After
+    @Before
     public void cleanUpVmOptions() {
         System.clearProperty("mockS3");
         System.clearProperty("mockS3Port");
-    }
-
-    @Test
-    public void testGetRealInstance() {
-        AmazonS3 amazonS3 = AmazonS3Factory.getInstance();
-        assertNotNull(amazonS3);
     }
 
     @Test
