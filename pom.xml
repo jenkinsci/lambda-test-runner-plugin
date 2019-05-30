@@ -105,6 +105,9 @@
                     <systemPropertyVariables>
                         <mockS3>true</mockS3>
                     </systemPropertyVariables>
+                    <environmentVariables>
+                        <AWS_REGION>eu-west-2</AWS_REGION>
+                    </environmentVariables>
                 </configuration>
             </plugin>
 

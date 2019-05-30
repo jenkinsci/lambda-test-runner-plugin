@@ -30,6 +30,12 @@ public class AmazonS3FactoryTest {
     }
 
     @Test
+    public void testGetRealInstance() {
+        AmazonS3 amazonS3 = AmazonS3Factory.getInstance();
+        assertNotNull(amazonS3);
+    }
+
+    @Test
     public void testGetMockedInstance() {
         System.setProperty("mockS3", "true");
         AmazonS3 amazonS3 = AmazonS3Factory.getInstance();
