@@ -22,8 +22,8 @@ public class AmazonS3FactoryTest {
         System.setProperty("mockS3", mockS3value);
     }
 
-    @After
     @Before
+    @After
     public void cleanUpVmOptions() {
         System.clearProperty("mockS3");
         System.clearProperty("mockS3Port");
