@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.lambdatestrunner.jenkins.plugin;
 
 import hudson.Extension;
+import hudson.Util;
 import hudson.model.Run;
 import hudson.util.FormValidation;
 import org.jenkinsci.plugins.lambdatestrunner.jenkins.lambda.config.LambdaConfig;
@@ -39,12 +40,12 @@ public class LambdaTestRunnerStep extends Step {
 
     @DataBoundSetter
     public void setBranch(String branch) {
-        this.branch = branch;
+        this.branch = Util.fixEmptyAndTrim(branch);
     }
 
     @DataBoundSetter
     public void setStoreToS3(String storeToS3) {
-        this.storeToS3 = storeToS3;
+        this.storeToS3 = Util.fixEmptyAndTrim(storeToS3);
     }
 
     @Override
