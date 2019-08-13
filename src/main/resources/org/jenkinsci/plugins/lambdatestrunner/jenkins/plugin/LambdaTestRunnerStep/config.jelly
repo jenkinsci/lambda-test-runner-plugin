@@ -5,27 +5,27 @@
         <f:textbox default="${descriptor.defaultFunctionName}"/>
     </f:entry>
 
-    <f:entry field="region" title="${%Region}" help="/plugin/lambda-test-runner-jenkins-plugin/region.html">
+    <f:entry field="region" title="${%Region}" help="${requestScope.descriptor.getHelpFile('region')}">
         <f:textbox/>
     </f:entry>
 
-    <f:entry field="s3Bucket" title="${%S3 bucket}" help="/plugin/lambda-test-runner-jenkins-plugin/s3-bucket.html">
+    <f:entry field="s3Bucket" title="${%S3 bucket}" help="${requestScope.descriptor.getHelpFile('s3-bucket')}">
         <f:textbox/>
     </f:entry>
 
-    <f:entry field="repoUri" title="${%Repo URI}" help="/plugin/lambda-test-runner-jenkins-plugin/repo-uri.html">
+    <f:entry field="repoUri" title="${%Repo URI}" help="${requestScope.descriptor.getHelpFile('repo-uri.html')}">
         <f:textbox/>
     </f:entry>
 
-    <f:entry field="command" title="${%Command}" help="/plugin/lambda-test-runner-jenkins-plugin/command.html">
+    <f:entry field="command" title="${%Command}" help="${requestScope.descriptor.getHelpFile('command.html')}">
         <f:textbox/>
     </f:entry>
 
-    <f:entry field="branch" title="${%Branch}" help="/plugin/lambda-test-runner-jenkins-plugin/branch.html">
+    <f:entry field="branch" title="${%Branch}" help="${requestScope.descriptor.getHelpFile('branch.html')}">
         <f:textbox/>
     </f:entry>
 
-    <f:entry field="storeToS3" title="${%Dirs to store to S3}" help="/plugin/lambda-test-runner-jenkins-plugin/store-to-s3.html">
+    <f:entry field="storeToS3" title="${%Dirs to store to S3}" help="${requestScope.descriptor.getHelpFile('store-to-s3.html')}">
         <f:textbox/>
     </f:entry>
 
